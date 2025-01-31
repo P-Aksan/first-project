@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask CRUD App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+    <h2>User Management</h2>
+
+    <form action="/add" method="POST">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <button type="submit">Add User</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user[0] }}</td>
+            <td>{{ user[1] }}</td>
+            <td>{{ user[2] }}</td>
+            <td>
+                <button onclick="editUser('{{ user[0] }}', '{{ user[1] }}', '{{ user[2] }}')">Edit</button>
+                <a href="/delete/{{ user[0] }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div id="editForm" style="display:none;">
+        <h3>Edit User</h3>
+        <form action="/update" method="POST">
+            <input type="hidden" name="id" id="editId">
+            <input type="text" name="name" id="editName" required>
+            <input type="email" name="email" id="editEmail" required>
+            <button type="submit">Update</button>
+        </form>
+    </div>
+</body>
+</html>
